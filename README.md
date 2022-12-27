@@ -21,7 +21,7 @@ Enter the URL: [domain].[TLD]/directory
 $ exticz
 Enter the URL: [domain].[TLD]/directory?key=value
 ```
-![exticz example](https://i.imgur.com/M3QCgpk.png)
+![exticz example](https://i.imgur.com/F92fFxQ.png)
 
 
 ## Installation
