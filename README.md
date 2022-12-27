@@ -26,7 +26,7 @@ Enter the URL: [domain].[TLD]/directory?key=value
 
 ## Installation
 ```bash
-  git clone https://github.com/Kadetron/exticz  
+  git clone https://github.com/Kadetron/Exticz  
   cd exticz
   sudo mv exticz /usr/local/bin
   rm ./exticz
