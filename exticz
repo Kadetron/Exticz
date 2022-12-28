@@ -3,26 +3,18 @@
 banner() {
     echo -e "\e[1;91m$i\n|                            .@kadetron.\n|                    .,++&&&@@<EXTICZ>@@&&&++,.\n|               .;+&&@@@@@@&++''''++&@@@@@@@@@@&&+.\n|           .+&'' , .  +@+ .:+&&&+•   .+&+ .  ':@@&+.\n|       .+&/ .:@':+'  +@+ +&@@@@@'    , +&+ '&;. '+&@&+.\n|     •+&+• -&&@@@'  +@+ •@@@@@@@$:-•,;. +&+  &@@++, '\: .+:'\n|   .:+ '@&• '+&@@@. +@+ &@@@@@()@@@@@@& +&+  &@&+'  ,&&&+•\n|         '+&;  .+++ +@+ +@@@@@@@@@@@@@+ +&+ ,;+' .;+&@+'\n|           '+@+;. '. +@+ '&@@@@@@@@@&' +&+ ' .+&@@&+'\n|             '+&&&++,+&&; '+&&&&&++' .+&&++&@@@&+'\n|                 '++&&@@@&++;,.,,++&@@@@@&&+'\n|                      '':++++&@&@&++++:;'\n|\n|                     AUTHOR: Amitabh Bera\n\e[0m"
 }
-banner
 
-echo -en "\e[1;36mEnter the URL: \e[0m"
-read url
+[ -z "$*" ] && banner && echo -en "\e[1;36mEnter the URL: \e[0m" && read url || url=$1
 
-regex='http[s]?://.*'
-if [[ $url =~ $regex ]]
-then
-    url="${url}"
-else
-    url="https://${url}"
-fi
+[[ ! $url =~ http[s]?://.* ]] && url="https://${url}"
 
 user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
 
 count=0
 
 scrape() {
-    baseUrl=$(echo ${1} | awk -F "?" '{print $1}')
-    ddotUrl=$(echo ${baseUrl} | sed -E 's>(.*\/)[^\/]+\/$>\1>')
+    baseUrl=$(echo ${1} | awk -F "?" '{print $1}' | sed -E 's>(/$)>>')
+    ddotUrl=$(echo ${baseUrl} | sed -E -e 's>(.*\/)[^\/]+\/$>\1>' -e 's>(/$)>>')
     curl -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -A "$user_agent" -s -L "$1" | grep -Eo "href=[\"'][^#][^\"']+" | sed -E "s>href=(\"|')(\".*)?>>g" | sed -E -e "s>^(\/\/).+>https:&>" -e "s>^(\.\.)[\/](.*)>${ddotUrl}\2>" -e "/^(http|tel|\/\/|\.\.)/!s>^(\.\/)?[\/]?(.+)>${baseUrl}\/\2>" -e "s> >%20>g"
     count=$(expr $count + 1)
 }
@@ -35,8 +27,7 @@ print() {
         echo -e "\e[42;30m$i\e[0m"
         scrape $i
     done
-    [[ $count == 0 ]] && echo -e "\e[1;97;101m NO LINKS FOUND IN THIS DOMAIN :( \e[0m" && exit 0
-    echo -e "\e[1;96mNumber of base links = $count\e[0m"
+    [[ $count == 0 ]] && echo -e "\e[1;97;101m NO LINKS FOUND IN THIS DOMAIN :(  \e[0m\n\e[31mURl used: $url\e[0m" && exit 0
 }
 
 print | uniq
