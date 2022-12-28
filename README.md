@@ -11,6 +11,10 @@
 ## Usage
 ```bash
 $ exticz
+```
+![exticz banner example](https://i.imgur.com/162yv7e.png)
+```bash
+$ exticz
 Enter the URL: [domain].[TLD]
 ```
 ```bash
@@ -21,7 +25,7 @@ Enter the URL: [domain].[TLD]/directory
 $ exticz
 Enter the URL: [domain].[TLD]/directory?key=value
 ```
-![exticz example](https://i.imgur.com/W6oOvfp.png)
+![exticz example](https://i.imgur.com/leJ8ORi.png)
 
 
 ## Installation
