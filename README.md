@@ -29,7 +29,7 @@ Enter the URL: [domain].[TLD]/directory?key=value
   git clone https://github.com/Kadetron/Exticz  
   cd exticz
   sudo mv exticz /usr/local/bin
-  rm ./exticz
+  rm -r ./exticz
 ```
     
 ## Features
