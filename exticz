@@ -15,7 +15,7 @@ count=0
 scrape() {
     baseUrl=$(echo ${1} | awk -F "?" '{print $1}' | sed -E 's>(/$)>>')
     ddotUrl=$(echo ${baseUrl} | sed -E -e 's>(.*\/)[^\/]+\/$>\1>' -e 's>(/$)>>')
-    curl -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -A "$user_agent" -s -L "$1" | grep -Eo "href=[\"'][^#][^\"']+" | sed -E "s>href=(\"|')(\".*)?(\.\/|\/)>>g" | sed -E -e "s>^(\/\/).+>https:&>" -e "s>^(\.\.\/)(.*)>${ddotUrl}\2>" -e "/^(http|tel|\/\/|\.\.)/!s>^(.*)>${baseUrl}\/\1>" -e "s> >%20>g"
+    curl -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -A "$user_agent" -s -L "$1" | grep -Eo "href=[\"'][^#][^\"']+" | sed -E "s>href=(\"|')(\".*)?>>g" | sed -E -e "s>^(\/\/).+>https:&>" -e "s>^(\.\.)[\/](.*)>${ddotUrl}\2>" -e "/^(http|tel|\/\/|\.\.)/!s>^(\.\/)?[\/]?(.*)>${baseUrl}\/\2>" -e "s> >%20>g"
     count=$(expr $count + 1)
 }
 
