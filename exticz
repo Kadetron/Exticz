@@ -32,10 +32,7 @@ list=( $(scrape $url) )
 print() {
     for i in ${list[@]}
     do
-        for j in ${!list[@]}
-        do
-            [[ $i == ${list[$j]} ]] && echo -e "\e[42;30m$i\e[0m"
-        done
+        echo -e "\e[42;30m$i\e[0m"
         scrape $i
     done
     [[ $count == 0 ]] && echo -e "\e[1;97;101m NO LINKS FOUND IN THIS DOMAIN :( \e[0m" && exit 0
