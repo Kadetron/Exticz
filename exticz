@@ -6,7 +6,7 @@ banner() {
 
 [ -z "$*" ] && banner && echo -en "\e[1;36mEnter the URL: \e[0m" && read url || url=$1
 
-[[ ! $url =~ http[s]?://.* ]] && echo -e "\e[97mNo scheme specified, using default https scheme\e[0m" && url="https://${url}"
+[[ ! $url =~ http[s]?://.* ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m" && url="https://${url}"
 
 user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
 
