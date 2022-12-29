@@ -31,7 +31,7 @@ $ exticz <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directo
 ## Installation
 ```bash
   git clone https://github.com/Kadetron/Exticz  
-  cd exticz
+  cd Exticz
   sudo mv exticz /usr/local/bin
   rm -r ./exticz
 ```
