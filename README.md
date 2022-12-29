@@ -33,7 +33,8 @@ $ exticz <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directo
   git clone https://github.com/Kadetron/Exticz  
   cd Exticz
   sudo mv exticz /usr/local/bin
-  rm -r ./exticz
+  cd ..
+  rm -r ./Exticz
 ```
     
 ## Features
