@@ -12,22 +12,22 @@
 ```bash
 $ exticz
 ```
-![exticz banner example](https://i.imgur.com/162yv7e.png)
-```bash
-$ exticz
-Enter the URL: [domain].[TLD]
-```
-```bash
-$ exticz
-Enter the URL: [domain].[TLD]/directory
-```
-```bash
-$ exticz
-Enter the URL: [domain].[TLD]/directory?key=value
-```
-![exticz example](https://i.imgur.com/leJ8ORi.png)
+![exticz banner example](https://i.imgur.com/GpkaWhn.png)
+<br>
 
+```bash
+$ exticz
+Enter the URL: <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directory?key=value>
+```
+![exticz example](https://i.imgur.com/UNoaQnT.png)
+<br>
 
+```bash
+$ exticz <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directory?key=value>
+```
+![exticz commandLine](https://i.imgur.com/sxH4Vfr.png)
+
+> While using arguments as input it is recommended to enclose the url in quotes
 ## Installation
 ```bash
   git clone https://github.com/Kadetron/Exticz  
@@ -38,10 +38,12 @@ Enter the URL: [domain].[TLD]/directory?key=value
     
 ## Features
 
+- Uses https scheme by default when no scheme is specified in input
 - Highlight the base urls to have a consistent format. The sub urls come under the highlighted base urls
 - Accepts any kind of valid links
-- Prints the number of base urls at the end
+- Can be used in a command chain
 - Removes successive repeated urls from the result
+
 ## Dependencies
 - awk
 - curl
