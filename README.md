@@ -25,7 +25,7 @@ Enter the URL: <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/d
 ```bash
 $ exticz <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directory?key=value>
 ```
-![exticz commandLine](https://i.imgur.com/sxH4Vfr.png)
+![exticz commandLine](https://i.imgur.com/cPGH54G.png)
 
 > While using arguments as input it is recommended to enclose the url in quotes
 ## Installation
