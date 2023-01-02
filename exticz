@@ -1,12 +1,22 @@
 #!/bin/bash
 
+silence=0
+
 banner() {
     echo -e "\e[1;91m$i\n|                            .@kadetron.\n|                    .,++&&&@@<EXTICZ>@@&&&++,.\n|               .;+&&@@@@@@&++''''++&@@@@@@@@@@&&+.\n|           .+&'' , .  +@+ .:+&&&+•   .+&+ .  ':@@&+.\n|       .+&/ .:@':+'  +@+ +&@@@@@'    , +&+ '&;. '+&@&+.\n|     •+&+• -&&@@@'  +@+ •@@@@@@@$:-•,;. +&+  &@@++, '\: .+:'\n|   .:+ '@&• '+&@@@. +@+ &@@@@@()@@@@@@& +&+  &@&+'  ,&&&+•\n|         '+&;  .+++ +@+ +@@@@@@@@@@@@@+ +&+ ,;+' .;+&@+'\n|           '+@+;. '. +@+ '&@@@@@@@@@&' +&+ ' .+&@@&+'\n|             '+&&&++,+&&; '+&&&&&++' .+&&++&@@@&+'\n|                 '++&&@@@&++;,.,,++&@@@@@&&+'\n|                      '':++++&@&@&++++:;'\n|\n|                     AUTHOR: Amitabh Bera\n\e[0m"
 }
 
-[ -z "$*" ] && banner && echo -en "\e[1;36mEnter the URL: \e[0m" && read url || url=$1
+if [ -z "$*" ]
+then
+        banner
+        echo -en "\e[1;36mEnter the URL: \e[0m"
+        read url 
+else 
+        url=$1
+        silence=1
+fi
 
-[[ ! $url =~ http[s]?://.* ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m" && url="https://${url}"
+[[ ! $url =~ http[s]?://.* ]] && url="https://${url}" && [[ $silence == 0 ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m"
 
 user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
 
@@ -23,10 +33,10 @@ count=${#list[@]}
 print() {
     for i in ${list[@]}
     do
-        echo -e "\e[42;30m$i\e[0m"
+        [[ $silence == 0 ]] && echo -e "\e[42;30m$i\e[0m" || echo "$i"
         scrape $i
     done
-    [[ $count == 0 ]] && echo -e "\e[1;97;101m NO LINKS FOUND IN THIS DOMAIN :(  \e[0m\n\e[31mURl used: $url\e[0m" && exit 0
+    [[ $count == 0 && $silence == 0 ]] && echo -e "\e[1;97;101m NO LINKS FOUND IN THIS DOMAIN :(  \e[0m\n\e[31mURl used: $url\e[0m"
 }
 
 print | uniq
