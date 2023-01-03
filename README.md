@@ -19,7 +19,7 @@ $ exticz
 $ exticz
 Enter the URL: <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directory?key=value>
 ```
-![exticz example](https://i.imgur.com/UNoaQnT.png)
+![exticz example](https://i.imgur.com/uAgXPxW.png)
 <br>
 
 ```bash
