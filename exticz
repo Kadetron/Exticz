@@ -5,15 +5,18 @@ silence=0
 banner() {
     echo -e "\e[1;91m$i\n|                            .@kadetron.\n|                    .,++&&&@@<EXTICZ>@@&&&++,.\n|               .;+&&@@@@@@&++''''++&@@@@@@@@@@&&+.\n|           .+&'' , .  +@+ .:+&&&+•   .+&+ .  ':@@&+.\n|       .+&/ .:@':+'  +@+ +&@@@@@'    , +&+ '&;. '+&@&+.\n|     •+&+• -&&@@@'  +@+ •@@@@@@@$:-•,;. +&+  &@@++, '\: .+:'\n|   .:+ '@&• '+&@@@. +@+ &@@@@@()@@@@@@& +&+  &@&+'  ,&&&+•\n|         '+&;  .+++ +@+ +@@@@@@@@@@@@@+ +&+ ,;+' .;+&@+'\n|           '+@+;. '. +@+ '&@@@@@@@@@&' +&+ ' .+&@@&+'\n|             '+&&&++,+&&; '+&&&&&++' .+&&++&@@@&+'\n|                 '++&&@@@&++;,.,,++&@@@@@&&+'\n|                      '':++++&@&@&++++:;'\n|\n|                     AUTHOR: Amitabh Bera\n\e[0m"
 }
-
-if [ -z "$*" ]
+if [ -p /dev/stdin ]
 then
-        banner
-        echo -en "\e[1;36mEnter the URL: \e[0m"
-        read url 
+    read url
+    silence=1
+elif [ -z "$*" ]
+then
+    banner
+    echo -en "\e[1;36mEnter the URL: \e[0m"
+    read url 
 else 
-        url=$1
-        silence=1
+    url=$1
+    silence=1
 fi
 
 [[ ! $url =~ http[s]?://.* ]] && url="https://${url}" && [[ $silence == 0 ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m"
