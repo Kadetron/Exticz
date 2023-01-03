@@ -39,7 +39,7 @@ print() {
         output=$([[ $silence == 0 ]] && echo -e "\e[32m$i\e[0;97m" || echo "$i")
         echo -e "$output\n$(scrape ${i})"&
     done
-    [[ $count == 0 && $silence == 0 ]] && echo -e "\e[1;97;101m NO LINKS FOUND IN THIS DOMAIN :(  \e[0m\n\e[31mURl used: $url\e[0m"
+    [[ $count == 0 && $silence == 0 ]] && echo -e "\e[1;91mNO LINKS FOUND IN THIS DOMAIN :(\e[0m\nURl used: $url" >&2
 }
 
 print | uniq
