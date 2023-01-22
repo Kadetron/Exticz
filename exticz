@@ -20,6 +20,7 @@ echo -e "\e[1;91m
 |                     AUTHOR: Amitabh Bera
 "
 }
+
 if [ -p /dev/stdin ]
 then
     read url
@@ -48,13 +49,26 @@ scrape() {
 list=( $(scrape $url) )
 count=${#list[@]}
 
+if [[ $count == 0 ]]
+then
+    if [[ $silence ==  0 ]]
+    then
+        echo -e "\e[1;91mNO LINKS FOUND IN THIS DOMAIN :(\e[0m\nURL used: $url" >&2
+    fi
+    exit 5
+fi
+
 print() {
     for i in ${list[@]}
     do
         output=$([[ $silence == 0 ]] && echo -e "\e[32m$i\e[0;97m" || echo "$i")
         echo -e "$output\n$(scrape ${i})"&
     done
-    [[ $count == 0 && $silence == 0 ]] && echo -e "\e[1;91mNO LINKS FOUND IN THIS DOMAIN :(\e[0m\nURl used: $url" >&2
 }
 
-print | uniq
+if (($silence==0))
+then
+    print | tee >(echo -e "\e[92mTotal links : $(wc -l)\e[0m") /dev/null | uniq
+else
+    print | uniq
+fi
