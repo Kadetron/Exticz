@@ -44,6 +44,7 @@ $ exticz <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directo
 - Accepts any kind of valid links
 - Can be used in a command chain
 - Removes successive repeated urls from the result
+- Prints the number of links at the end
 
 ## Dependencies
 - awk
@@ -51,3 +52,5 @@ $ exticz <[domain].[TLD]> | <[domain].[TLD]/directory> | <[domain].[TLD]/directo
 - grep
 - sed
 - uniq
+- tee
+- wc
