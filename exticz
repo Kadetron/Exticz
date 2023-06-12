@@ -20,44 +20,12 @@ echo -e "\e[1;91m
 |                     AUTHOR: Amitabh Bera
 "
 }
-
-if [ -p /dev/stdin ]
-then
-    read url
-    silence=1
-elif [ -z "$*" ]
-then
-    banner
-    echo -en "\e[1;36mEnter the URL: \e[0m"
-    read url 
-else 
-    url=$1
-    silence=1
-fi
-
-[[ ! $url =~ http[s]?://.* ]] && url="https://${url}" && [[ $silence == 0 ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m"
-
-user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
-
 scrape() {
     baseUrl=$(echo $url | awk -F "/" '{print $1 "/" $2 "/" $3}')
     dotUrl=$(echo ${1} | awk -F "?" '{print $1}' | sed -E 's>(/$)>>')
     ddotUrl=$(echo ${dotUrl} | sed -E -e 's>(.*\/)[^\/]+$>\1>' -e 's>(/$)>>')
     curl -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -A "$user_agent" -s -L "$1" | grep -Eo "href=[\"'][^#][^\"']+" | sed -E "s>href=(\"|')(\".*)?>>g" | sed -E -e "s>^(\/\/).+>https:&>" -e "s>^(\.\.)[\/](.*)>${ddotUrl}\/\2>" -e "s>^[\~\/|\/](.*)>$baseUrl\/\1>" -e "/^(http|tel)/!s>^(\.\/)?(.*)>${dotUrl}\/\2>" -e "s> >%20>g"
 }
-
-list=( $(scrape $url) )
-count=${#list[@]}
-
-if [[ $count == 0 ]]
-then
-    if [[ $silence ==  0 ]]
-    then
-        echo -e "\e[1;91mNO LINKS FOUND IN THIS DOMAIN :(\e[0m\nURL used: $url" >&2
-    fi
-    exit 5
-fi
-
 print() {
     for i in ${list[@]}
     do
@@ -65,10 +33,37 @@ print() {
         echo -e "$output\n$(scrape ${i})"&
     done
 }
-
-if (($silence==0))
-then
-    print | tee >(echo -e "\e[92mTotal links : $(wc -l)\e[0m") /dev/null | uniq
-else
-    print | uniq
-fi
+main() {
+    if [ -p /dev/stdin ]
+    then
+        read url
+        silence=1
+    elif [ -z "$*" ]
+    then
+        banner
+        echo -en "\e[1;36mEnter the URL: \e[0m"
+        read url 
+    else 
+        url=$1
+        silence=1
+    fi
+    [[ ! $url =~ http[s]?://.* ]] && url="https://${url}" && [[ $silence == 0 ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m"
+    user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
+    list=( $(scrape $url) )
+    count=${#list[@]}
+    if [[ $count == 0 ]]
+    then
+        if [[ $silence ==  0 ]]
+        then
+            echo -e "\e[1;91mNO LINKS FOUND IN THIS DOMAIN :(\e[0m\nURL used: $url" >&2
+        fi
+        exit 5
+    fi
+    if (($silence==0))
+    then
+        print | tee >(echo -e "\e[92mTotal links : $(wc -l)\e[0m") /dev/null | uniq
+    else
+        print | uniq
+    fi
+}
+main
