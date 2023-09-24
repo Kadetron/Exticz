@@ -1,19 +1,6 @@
 #!/bin/bash
 
 silence=0
-if [ -p /dev/stdin ]
-then
-    read url
-    silence=1
-elif [ -z "$*" ]
-then
-    banner
-    echo -en "\e[1;36mEnter the URL: \e[0m"
-    read url 
-else 
-    url=$1
-    silence=1
-fi
 banner() {
 echo -e "\e[1;91m
 |                            .@kadetron.
@@ -32,6 +19,19 @@ echo -e "\e[1;91m
 |                     AUTHOR: Amitabh Bera
 "
 }
+if [ -p /dev/stdin ]
+then
+    read url
+    silence=1
+elif [ -z "$*" ]
+then
+    banner
+    echo -en "\e[1;36mEnter the URL: \e[0m"
+    read url 
+else 
+    url=$1
+    silence=1
+fi
 scrape() {
     baseUrl=$(echo $url | awk -F "/" '{print $1 "/" $2 "/" $3}')
     dotUrl=$(echo ${1} | awk -F "?" '{print $1}' | sed -E 's>(/$)>>')
