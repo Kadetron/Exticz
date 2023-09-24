@@ -1,7 +1,19 @@
 #!/bin/bash
 
 silence=0
-
+if [ -p /dev/stdin ]
+then
+    read url
+    silence=1
+elif [ -z "$*" ]
+then
+    banner
+    echo -en "\e[1;36mEnter the URL: \e[0m"
+    read url 
+else 
+    url=$1
+    silence=1
+fi
 banner() {
 echo -e "\e[1;91m
 |                            .@kadetron.
@@ -34,19 +46,6 @@ print() {
     done
 }
 main() {
-    if [ -p /dev/stdin ]
-    then
-        read url
-        silence=1
-    elif [ -z "$*" ]
-    then
-        banner
-        echo -en "\e[1;36mEnter the URL: \e[0m"
-        read url 
-    else 
-        url=$1
-        silence=1
-    fi
     [[ ! $url =~ http[s]?://.* ]] && url="https://${url}" && [[ $silence == 0 ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m"
     user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
     list=( $(scrape $url) )
