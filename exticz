@@ -33,6 +33,7 @@ else
     silence=1
 fi
 scrape() {
+    user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
     baseUrl=$(echo $url | awk -F "/" '{print $1 "/" $2 "/" $3}')
     dotUrl=$(echo ${1} | awk -F "?" '{print $1}' | sed -E 's>(/$)>>')
     ddotUrl=$(echo ${dotUrl} | sed -E -e 's>(.*\/)[^\/]+$>\1>' -e 's>(/$)>>')
@@ -47,7 +48,6 @@ print() {
 }
 main() {
     [[ ! $url =~ http[s]?://.* ]] && url="https://${url}" && [[ $silence == 0 ]] && echo -e "\e[1;93mNo scheme specified, using default https scheme\e[0m"
-    user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
     list=( $(scrape $url) )
     count=${#list[@]}
     if [[ $count == 0 ]]
